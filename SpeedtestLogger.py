@@ -76,8 +76,8 @@ def main():
                         csv_writer = writer(csv_file)
                         csv_writer.writerow(list(data))  
                         csv_file.close()
-                except e:
-                    print("fail " + e)
+                except:
+                    print("fail")
                     pass 
 
 
