@@ -21,7 +21,7 @@ def main():
         print("Test")
         time.sleep(30)
         if(int (datetime.datetime.now().strftime("%M")) % 5 == 0):
-            now = datetime.datetime.now().strftime("%Y/%m/%d  %H:%M:%S")
+            now = datetime.datetime.now().strftime("%Y/%m/%d - %H:%M:%S")
             st = speedtest.Speedtest()
             st.get_best_server()
             
