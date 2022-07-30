@@ -58,11 +58,10 @@ def main():
     lastTest = datetime.datetime.now()
     while(True):
         time.sleep(30)
-        if(int (datetime.datetime.now().strftime("%M")) % 2 == 0):
+        if(int (datetime.datetime.now().strftime("%M")) % 5 == 0):
             now = datetime.datetime.now()
             if (now - lastTest > datetime.timedelta(minutes=1)):
                 lastTest = now
-                print("exec test")
                 try:
                     st = speedtest.Speedtest()
                     st.get_best_server()
@@ -86,5 +85,5 @@ def main():
 if __name__ == "__main__":
     if os.path.exists("thread.lock"):
         os.remove("thread.lock")
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
 
