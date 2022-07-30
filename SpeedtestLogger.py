@@ -13,13 +13,33 @@ def ressource(req):
 
 @app.route('/', methods = ['GET'])
 def index():
-    timestamps = list(map(lambda x: x[0], measurements[-288:]))
-    pingTimes = list(map(lambda x: x[1], measurements[-288:]))
-    downloadSpeeds = list(map(lambda x: x[2], measurements[-288:]))
-    uploadSpeeds  = list(map(lambda x: x[3], measurements[-288:]))
-    return render_template('index.html', timestamps=timestamps, pingTimes=pingTimes, downloadSpeeds=downloadSpeeds, uploadSpeeds=uploadSpeeds)
+    timestamps = list(map(lambda x: x[0], measurements))
+    pingTimes = list(map(lambda x: x[1], measurements))
+    downloadSpeeds = list(map(lambda x: x[2], measurements))
+    uploadSpeeds  = list(map(lambda x: x[3], measurements))
+
+    avgPingLast24Hour = avg2(pingTimes[-288:])
+    avgDownloadLast24Hour = avg2(downloadSpeeds[-288:])
+    avgUploadLast24Hour = avg2(uploadSpeeds[-288:])
+
+    avgPing = avg2(pingTimes)
+    avgDownload = avg2(downloadSpeeds)
+    avgUpload = avg2(uploadSpeeds)
+    
+    avgPingLastHour = avg2(pingTimes[-12:])
+    avgDownloadLastHour = avg2(downloadSpeeds[-12:])
+    avgUploadLastHour = avg2(uploadSpeeds[-12:])
+
+    return render_template('index.html', timestamps=timestamps[-288:], pingTimes=pingTimes[-288:], downloadSpeeds=downloadSpeeds[-288:], uploadSpeeds=uploadSpeeds[-288:],
+        avgPingLast24Hour=avgPingLast24Hour, avgDownloadLast24Hour=avgDownloadLast24Hour, avgUploadLast24Hour=avgUploadLast24Hour,
+        avgPing=avgPing, avgDownload=avgDownload, avgUpload=avgUpload, avgPingLastHour=avgPingLastHour, avgDownloadLastHour=avgDownloadLastHour, avgUploadLastHour=avgUploadLastHour)
 
 measurements = []
+
+def avg2(l):
+    if len(l) == 0:
+        return -1
+    return round(sum(l)/len(l),1)
 
 def main():
     while(True):
