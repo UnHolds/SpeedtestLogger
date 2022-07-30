@@ -4,6 +4,7 @@ import speedtest
 import datetime
 import time
 import random
+from csv import writer
 
 app = Flask(__name__)
 
@@ -52,8 +53,13 @@ def main():
             ping = st.results.ping
             download = round(st.download() / 1000 / 1000, 1)
             upload = round(st.upload() / 1000 / 1000, 1)
-            measurements.append((now,ping,download,upload))
-            print(measurements)
+            data = (now,ping,download,upload)
+            measurements.append(data)
+            
+            with open('data.csv', 'a', newline='') as csv_file:  
+                csv_writer = writer(csv_file)
+                csv_writer.writerow(list(data))  
+                csv_file.close()
 
 
 
