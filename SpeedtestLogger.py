@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, send_from_directory, abort
+import threading
+import time
 
 app = Flask(__name__)
 
@@ -10,7 +12,10 @@ def ressource(req):
 def index():
     return render_template('index.html')
 
-
+def main():
+    pass
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    t = threading.Thread(target=main)
+    t.start()
+    app.run(debug=True, threaded=True)
