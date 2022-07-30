@@ -3,6 +3,7 @@ import threading
 import speedtest
 import datetime
 import time
+import random
 
 app = Flask(__name__)
 
@@ -12,13 +13,16 @@ def ressource(req):
 
 @app.route('/', methods = ['GET'])
 def index():
-    return render_template('index.html')
+    timestamps = list(map(lambda x: x[0], measurements[-288:]))
+    pingTimes = list(map(lambda x: x[1], measurements[-288:]))
+    downloadSpeeds = list(map(lambda x: x[2], measurements[-288:]))
+    uploadSpeeds  = list(map(lambda x: x[3], measurements[-288:]))
+    return render_template('index.html', timestamps=timestamps, pingTimes=pingTimes, downloadSpeeds=downloadSpeeds, uploadSpeeds=uploadSpeeds)
 
 measurements = []
 
 def main():
     while(True):
-        print("Test")
         time.sleep(30)
         if(int (datetime.datetime.now().strftime("%M")) % 5 == 0):
             now = datetime.datetime.now().strftime("%Y/%m/%d - %H:%M:%S")
